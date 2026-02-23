@@ -1,0 +1,569 @@
+:root {
+  /* color palette (oled black focus) */
+  --bg-color: #000000;
+  --surface-color: #121212;
+  --surface-list: #1c1c1e;
+  --surface-hover: #2c2c2e;
+
+  /* text */
+  --text-primary: #ffffff;
+  --text-secondary: #8e8e93;
+  --text-tertiary: #636366;
+
+  /* branding */
+  --accent-1: #5e5ce6;
+  --accent-2: #bf5af2;
+  --accent-grad: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+
+  /* ui elements */
+  --separator: rgba(84, 84, 88, 0.65);
+  --danger: #ff453a;
+  --success: #30d158;
+
+  /* glass */
+  --glass-bg: rgba(18, 18, 18, 0.7);
+  --glass-border: rgba(255, 255, 255, 0.08);
+
+  /* shadows and radii */
+  --radius-xl: 32px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
+
+  /* ios spacing */
+  --safe-top: env(safe-area-inset-top, 47px);
+  --safe-bottom: env(safe-area-inset-bottom, 34px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg-color: #f2f2f7;
+    --surface-color: #ffffff;
+    --surface-list: #ffffff;
+    --surface-hover: #e5e5ea;
+
+    --text-primary: #000000;
+    --text-secondary: #8e8e93;
+
+    --separator: rgba(60, 60, 67, 0.29);
+    --glass-bg: rgba(255, 255, 255, 0.75);
+    --glass-border: rgba(0, 0, 0, 0.05);
+  }
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Rounded", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--bg-color);
+  color: var(--text-primary);
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+  overflow: hidden;
+  overscroll-behavior-y: none;
+}
+
+/* splash screen */
+.splash-screen {
+  position: fixed;
+  inset: 0;
+  background: var(--bg-color);
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: opacity 0.5s ease, visibility 0.5s;
+}
+
+.splash-screen.hide {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.splash-logo {
+  animation: pulse 2s infinite cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes pulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+/* layout */
+.app-container {
+  width: 100%;
+  height: 100vh;
+  height: -webkit-fill-available;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* native header */
+.ios-header {
+  background: var(--glass-bg);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border-bottom: 0.5px solid var(--glass-border);
+  padding: 0 20px 16px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding-top: var(--safe-top);
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.ios-header.scrolled {
+  padding-bottom: 12px;
+}
+
+.ios-header.scrolled .large-title {
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: -10px;
+}
+
+.ios-header.scrolled .date-subtitle,
+.ios-header.scrolled .progress-cards {
+  opacity: 0;
+  height: 0;
+  margin: 0;
+  pointer-events: none;
+  transform: translateY(-10px);
+}
+
+.island-spacer {
+  height: 12px;
+  /* spacing below dynamic island */
+}
+
+.large-title {
+  font-size: 2.1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin-bottom: 2px;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.date-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+}
+
+/* cards */
+.progress-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.ios-card {
+  background: var(--surface-list);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.card-title {
+  color: var(--text-secondary);
+}
+
+.card-value {
+  color: var(--text-primary);
+}
+
+.ios-progress-bg {
+  width: 100%;
+  height: 6px;
+  background: var(--surface-hover);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.ios-progress-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.items-fill {
+  background: var(--accent-grad);
+}
+
+.money-fill {
+  background: linear-gradient(135deg, var(--success), #34c759);
+}
+
+/* list */
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 20px calc(100px + var(--safe-bottom));
+  -webkit-overflow-scrolling: touch;
+}
+
+.ios-list {
+  list-style: none;
+  background: var(--surface-list);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.expense-item {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  background: var(--surface-list);
+  position: relative;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.expense-item:active {
+  background: var(--surface-hover);
+}
+
+.expense-item:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 56px;
+  /* offset for checkbox */
+  right: 0;
+  height: 0.5px;
+  background: var(--separator);
+}
+
+.expense-item.checked .expense-name {
+  color: var(--text-secondary);
+  text-decoration: line-through;
+}
+
+.expense-item.checked .expense-amount {
+  color: var(--text-tertiary);
+}
+
+/* native checkbox */
+.checkbox-wrapper {
+  margin-right: 16px;
+}
+
+.checkbox-input {
+  display: none;
+}
+
+.checkbox-custom {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1.5px solid var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.checkbox-input:checked+.checkbox-custom {
+  background: var(--accent-1);
+  border-color: var(--accent-1);
+}
+
+.checkbox-custom svg {
+  width: 14px;
+  height: 14px;
+  fill: none;
+  stroke: #fff;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.checkbox-input:checked+.checkbox-custom svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.expense-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.expense-name {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.expense-due {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.expense-amount {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 12px;
+}
+
+.delete-btn {
+  background: none;
+  border: none;
+  color: var(--danger);
+  padding: 8px;
+  height: 44px;
+  /* ios min touch target */
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.8;
+  cursor: pointer;
+}
+
+.delete-btn:active {
+  opacity: 0.4;
+}
+
+/* empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.empty-state.hidden {
+  display: none;
+}
+
+.empty-icon {
+  color: var(--text-tertiary);
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-size: 1.2rem;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+  max-width: 250px;
+}
+
+/* floating action button */
+.fab-container {
+  position: fixed;
+  bottom: calc(20px + var(--safe-bottom));
+  right: 20px;
+  z-index: 20;
+}
+
+.ios-fab {
+  width: 56px;
+  height: 56px;
+  border-radius: 28px;
+  background: var(--accent-1);
+  color: #fff;
+  border: none;
+  box-shadow: 0 8px 20px rgba(94, 92, 230, 0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+  cursor: pointer;
+}
+
+.ios-fab:active {
+  transform: scale(0.9);
+}
+
+/* bottom sheet */
+.bottom-sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  pointer-events: none;
+}
+
+.sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.sheet-content {
+  position: relative;
+  background: var(--surface-list);
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+  padding: 12px 20px calc(30px + var(--safe-bottom));
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+  pointer-events: auto;
+}
+
+.bottom-sheet.open {
+  pointer-events: auto;
+}
+
+.bottom-sheet.open .sheet-backdrop {
+  opacity: 1;
+}
+
+.bottom-sheet.open .sheet-content {
+  transform: translateY(0);
+}
+
+.sheet-handle {
+  width: 36px;
+  height: 5px;
+  background: var(--text-tertiary);
+  border-radius: 3px;
+  margin: 0 auto 16px;
+  opacity: 0.5;
+}
+
+.sheet-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.sheet-header h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.ios-close-btn {
+  background: none;
+  border: none;
+  color: var(--accent-1);
+  font-size: 1.05rem;
+  font-weight: 600;
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+/* ios forms */
+.ios-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.ios-input-group {
+  background: var(--surface-color);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 0.5px solid var(--separator);
+}
+
+.ios-input-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: var(--surface-list);
+}
+
+.ios-input-separator {
+  height: 0.5px;
+  background: var(--separator);
+  margin-left: 16px;
+}
+
+.ios-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.05rem;
+  outline: none;
+  padding: 4px 0;
+}
+
+.ios-input::placeholder {
+  color: var(--text-secondary);
+}
+
+.currency-symbol {
+  color: var(--text-secondary);
+  margin-right: 8px;
+  font-size: 1.05rem;
+}
+
+.due-label {
+  width: 100px;
+  color: var(--text-primary);
+  font-size: 1.05rem;
+}
+
+.due-input {
+  text-align: right;
+}
+
+.ios-submit-btn {
+  background: var(--accent-1);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.ios-submit-btn:active {
+  opacity: 0.7;
+}

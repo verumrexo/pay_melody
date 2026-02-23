@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Pay Melody">
+  <title>Pay Melody – Premium Tracker</title>
+
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="pay_melody_icon.png">
+
+  <link rel="stylesheet" href="style.css">
+  <script src="app.js" defer></script>
+</head>
+
+<body>
+  <!-- splash screen -->
+  <div id="splash-screen" class="splash-screen">
+    <div class="splash-logo">
+      <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="url(#splash-grad)" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <defs>
+          <linearGradient id="splash-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#6366f1" />
+            <stop offset="100%" stop-color="#a855f7" />
+          </linearGradient>
+        </defs>
+        <path d="M9 18V5l12-2v13"></path>
+        <circle cx="6" cy="18" r="3"></circle>
+        <circle cx="18" cy="16" r="3"></circle>
+      </svg>
+    </div>
+  </div>
+
+  <div class="app-container">
+    <header class="ios-header" id="main-header">
+      <div class="island-spacer"></div>
+      <div class="header-content">
+        <h1 class="large-title">Recurring</h1>
+        <p class="date-subtitle" id="current-date">October 2026</p>
+      </div>
+
+      <div class="progress-cards">
+        <div class="ios-card progress-card">
+          <div class="card-header">
+            <span class="card-title">Paid</span>
+            <span class="card-value"><span id="completed-count">0</span> / <span id="total-count">0</span></span>
+          </div>
+          <div class="ios-progress-bg">
+            <div class="ios-progress-fill items-fill" id="progress-fill"></div>
+          </div>
+        </div>
+
+        <div class="ios-card progress-card">
+          <div class="card-header">
+            <span class="card-title">Spent</span>
+            <span class="card-value">$<span id="spent-amount">0</span> / $<span id="total-amount">0</span></span>
+          </div>
+          <div class="ios-progress-bg">
+            <div class="ios-progress-fill money-fill" id="money-fill"></div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-content" id="main-scroll">
+      <ul id="expense-list" class="ios-list">
+        <!-- JS items inject here -->
+      </ul>
+
+      <div id="empty-state" class="empty-state hidden">
+        <div class="empty-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
+            <line x1="2" y1="10" x2="22" y2="10"></line>
+            <line x1="6" y1="16" x2="6.01" y2="16"></line>
+            <line x1="10" y1="16" x2="14" y2="16"></line>
+          </svg>
+        </div>
+        <h3>No Expenses</h3>
+        <p>You're all caught up. Tap the + to add your first expense.</p>
+      </div>
+    </main>
+
+    <div class="fab-container">
+      <button id="fab-btn" class="ios-fab" aria-label="add new">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+    </div>
+
+    <!-- bottom sheet modal -->
+    <div id="bottom-sheet" class="bottom-sheet">
+      <div class="sheet-backdrop" id="sheet-backdrop"></div>
+      <div class="sheet-content">
+        <div class="sheet-handle"></div>
+        <div class="sheet-header">
+          <h2>New Expense</h2>
+          <button id="close-sheet-btn" class="ios-close-btn">Done</button>
+        </div>
+        <form id="add-form" class="ios-form">
+          <div class="ios-input-group">
+            <div class="ios-input-row">
+              <input type="text" id="expense-input" class="ios-input" placeholder="Name (e.g., Netflix)" required
+                autocomplete="off">
+            </div>
+            <div class="ios-input-separator"></div>
+            <div class="ios-input-row">
+              <span class="currency-symbol">$</span>
+              <input type="number" id="amount-input" class="ios-input amount-input" placeholder="0.00" min="0"
+                step="0.01" required autocomplete="off">
+            </div>
+            <div class="ios-input-separator"></div>
+            <div class="ios-input-row">
+              <span class="due-label">Due on day</span>
+              <input type="number" id="due-input" class="ios-input due-input" placeholder="1-31" min="1" max="31"
+                required autocomplete="off">
+            </div>
+          </div>
+          <button type="submit" class="ios-submit-btn">Add Expense</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>
