@@ -40,7 +40,13 @@
     <header class="ios-header" id="main-header">
       <div class="island-spacer"></div>
       <div class="header-content">
-        <h1 class="large-title">Recurring</h1>
+        <div class="header-main-row">
+          <h1 class="large-title">Recurring</h1>
+          <div class="due-badge">
+            <span class="due-badge-label">Remaining</span>
+            <span class="due-badge-value">€<span id="remaining-amount">0.00</span></span>
+          </div>
+        </div>
         <p class="date-subtitle" id="current-date">October 2026</p>
       </div>
 
@@ -58,7 +64,7 @@
         <div class="ios-card progress-card">
           <div class="card-header">
             <span class="card-title">Spent</span>
-            <span class="card-value">$<span id="spent-amount">0</span> / $<span id="total-amount">0</span></span>
+            <span class="card-value">€<span id="spent-amount">0</span> / €<span id="total-amount">0</span></span>
           </div>
           <div class="ios-progress-bg">
             <div class="ios-progress-fill money-fill" id="money-fill"></div>
@@ -114,13 +120,13 @@
             </div>
             <div class="ios-input-separator"></div>
             <div class="ios-input-row">
-              <span class="currency-symbol">$</span>
+              <span class="currency-symbol">€</span>
               <input type="number" id="amount-input" class="ios-input amount-input" placeholder="0.00" min="0"
                 step="0.01" required autocomplete="off">
             </div>
             <div class="ios-input-separator"></div>
             <div class="ios-input-row">
-              <span class="due-label">Due on day</span>
+              <span class="due-label">Pay by</span>
               <input type="number" id="due-input" class="ios-input due-input" placeholder="1-31" min="1" max="31"
                 required autocomplete="off">
             </div>

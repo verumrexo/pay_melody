@@ -18,6 +18,7 @@ const spentAmountEl = document.getElementById('spent-amount');
 const totalAmountEl = document.getElementById('total-amount');
 const moneyFill = document.getElementById('money-fill');
 const dateEl = document.getElementById('current-date');
+const remainingAmountEl = document.getElementById('remaining-amount');
 
 // new dom
 const mainScroll = document.getElementById('main-scroll');
@@ -107,6 +108,7 @@ function render() {
     const li = document.createElement('li');
     li.className = `expense-item ${ez.checked ? 'checked' : ''}`;
 
+    const monthShort = new Date().toLocaleString('default', { month: 'short' });
     li.innerHTML = `
       <label class="checkbox-wrapper">
         <input type="checkbox" class="checkbox-input" data-id="${ez.id}" ${ez.checked ? 'checked' : ''}>
@@ -116,9 +118,9 @@ function render() {
       </label>
       <div class="expense-content">
         <div class="expense-name">${ez.name}</div>
-        ${ez.due ? `<div class="expense-due">Due: Day ${ez.due}</div>` : ''}
+        ${ez.due ? `<div class="expense-due">Pay by ${monthShort} ${ez.due}</div>` : ''}
       </div>
-      <div class="expense-amount">$${(ez.amount || 0).toFixed(2)}</div>
+      <div class="expense-amount">€${(ez.amount || 0).toFixed(2)}</div>
       <button class="delete-btn" aria-label="delete">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M3 6h18"></path>
@@ -148,6 +150,7 @@ function render() {
   totalAmountEl.innerText = totalMoney.toFixed(2);
   spentAmountEl.innerText = spentMoney.toFixed(2);
   const moneyPct = totalMoney === 0 ? 0 : (spentMoney / totalMoney) * 100;
+  remainingAmountEl.innerText = (totalMoney - spentMoney).toFixed(2);
   moneyFill.style.width = `${moneyPct}%`;
 }
 
